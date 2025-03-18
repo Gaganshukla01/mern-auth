@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken";
 import userModel from "../model/userModel.js";
 import transporter from "../config/nodeMailer.js";
 
@@ -43,7 +43,7 @@ export const register= async(req,res)=>{
         }
 
         await transporter.sendMail(mailOption)
-        return res.json({sucess:true,message:"Registered"})
+        return res.json({sucess:true,message:"Registered",token})
         
     } catch (error) {
         
@@ -85,7 +85,7 @@ export const login=async(req,res)=>{
        maxAge:7*24*60*60*1000
    });
 
-   return res.json({sucess:true})
+   return res.json({sucess:true,message:"Login Sucessfull",token})
 
 }
 
@@ -185,7 +185,7 @@ export const isAuthenticated=async (req,res)=>{
         
     } catch (error) {
         
-        return res.json({sucess:true,message:"Login Again User is not authenticated."})
+        return res.json({sucess:false,message:"Login Again User is not authenticated."})
     }
 }
 
@@ -227,6 +227,8 @@ export const resetPasswordOtp=async(req,res)=>{
     }
 
 }
+
+
 
 // Reset User Password
 export const resetPassword=async(req,res)=>{

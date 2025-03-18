@@ -12,7 +12,7 @@ export const userData= async(req,res)=>{
         }
 
         return res.json({
-            staus:true,
+            sucess:true,
             message:{
                 "name":user.name,
                 "isAccountVerifid":user.isAccountVerified

@@ -11,5 +11,5 @@ authRoute.post("/resetotp",resetPasswordOtp)
 authRoute.post("/resetpassword",resetPassword)
 authRoute.post("/verifyemail",userAuth,verifyEmail)
 authRoute.post("/sendverifyOtp",userAuth,sendVerifyOtp)
-authRoute.post("/isAuthenticate",userAuth,isAuthenticated)
+authRoute.get("/isAuthenticate",userAuth,isAuthenticated)
 
