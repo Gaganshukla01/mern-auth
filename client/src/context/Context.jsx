@@ -12,29 +12,26 @@ export const  AppContextProvider=(props)=>{
     const[userData,setUserData]=useState(false)
 
     const getAuthState=async()=>{
-        const token = localStorage.getItem("token");
-        if (token) {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            axios.defaults.withCredentials=true
             try {
-                const { data } = await axios.get(`${backend_url}/api/auth/isAuthenticate`);
+                const {data} = await axios.get(`${backend_url}/api/auth/isAuthenticate`);
               
                 if (data.sucess) {
                     setIsLoggedin(true);
                     getUserData();
                 }
             } catch (error) {
-                toast.error(error.response?.data?.message || "An error occurred");
+                console.log(error.response?.data?.message || "An error occurred");
             }
             
-        }
-       
+    
     }
 
     const getUserData=async()=>{
 
         try {
            
-            const {data}= await axios.get(backend_url+"/api/user/data")
+            const {data}= await axios.get(`${backend_url}/api/user/data`)
             data.sucess?setUserData(data.message):toast.error(data.message)
             
         } catch (error) {

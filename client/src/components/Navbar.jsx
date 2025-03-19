@@ -2,10 +2,47 @@ import React, { useContext } from "react";
 import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import { AppContent } from "../context/Context";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 function Navbar() {
   const navigate = useNavigate();
-  const { userData, setIsLoggedin, backend_url } = useContext(AppContent);
+  const { userData,setUserData, setIsLoggedin, backend_url } = useContext(AppContent);
+
+
+  const sendVerificationMail=async()=>{
+    try {
+      axios.defaults.withCredentials=true
+      const {data}=await axios.post(backend_url+"/api/auth/sendverifyOtp")
+      if(data.sucess){
+        navigate("/EmailVerify")
+      }
+      else{
+        toast.error(data.message)
+      }
+      
+    } catch (error) {
+      toast.error(error)
+    }
+  }
+
+  const logout= async ()=>{
+    try {
+      axios.defaults.withCredentials=true
+      const {data}= await axios.post(backend_url+"/api/auth/logout")
+      
+      if(data.sucess){ 
+        console.log("iam here")
+        setIsLoggedin(false)
+        setUserData(false)
+        navigate("/")
+      }
+     
+      
+    } catch (error) {
+      toast.error(error)
+    }
+  }
   return (
     <>
       <div className="w-full flex justify-between items-center p-4 sm:p-6 sm:px-24 absolute top-0">
@@ -20,11 +57,11 @@ function Navbar() {
              rounded pt-10">
                 <ul className="list-none bg-gray-100 m-0 p-2 text-sm">
                     {!userData.isAccountVerifid &&
-                     <li className="py-1 w-30 px-2 hover:bg-gray-200 
+                     <li onClick={sendVerificationMail} className="py-1 w-30 px-2 hover:bg-gray-200 
                      cursor-pointer ">Verify Email</li>
                     }
                     
-                    <li className="py-1 px-2 hover:bg-gray-200 cursor-pointer">Logout</li>
+                    <li className="py-1 px-2 hover:bg-gray-200 cursor-pointer" onClick={logout}>Logout</li>
                 </ul>
             
           </div>

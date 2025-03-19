@@ -5,6 +5,7 @@ import { AppContent } from "../context/Context";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+
 function Login() {
  
   const {backend_url,setIsLoggedin,getUserData}=useContext(AppContent)
@@ -25,7 +26,6 @@ function Login() {
            const {data}= await axios.post(backend_url+'/api/auth/register',{name,email,password})
            if(data.sucess){
             toast.success("User Registerd.")
-            localStorage.setItem("token", data.token);
             setIsLoggedin(true)
             getUserData()
             navigate('/')
@@ -39,9 +39,7 @@ function Login() {
 
             axios.defaults.withCredentials=true
             const {data}= await axios.post(backend_url+'/api/auth/login',{email,password})
-            console.log("ia m ",data.token)
             if(data.sucess){
-            localStorage.setItem("token", data.token);
              setIsLoggedin(true)
              toast.success(data.message)
              getUserData()

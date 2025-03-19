@@ -43,7 +43,7 @@ export const register= async(req,res)=>{
         }
 
         await transporter.sendMail(mailOption)
-        return res.json({sucess:true,message:"Registered",token})
+        return res.json({sucess:true,message:"Registered"})
         
     } catch (error) {
         
@@ -85,7 +85,7 @@ export const login=async(req,res)=>{
        maxAge:7*24*60*60*1000
    });
 
-   return res.json({sucess:true,message:"Login Sucessfull",token})
+   return res.json({sucess:true,message:"Login Sucessfull"})
 
 }
 
@@ -105,7 +105,7 @@ export const logout =async (req,res)=>{
     } catch (error) {
         return res.json({sucess:false,message:"Error"})
     }
-   return res.json({success:true,message:"LoggedOut"})
+   return res.json({sucess:true,message:"LoggedOut"})
 }
 
 // sending otp to mail
