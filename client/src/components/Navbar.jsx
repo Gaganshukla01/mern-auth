@@ -56,7 +56,7 @@ function Navbar() {
             <div className="absolute hidden group-hover:block top-0 right-0 z-10 text-black
              rounded pt-10">
                 <ul className="list-none bg-gray-100 m-0 p-2 text-sm">
-                    {!userData.isAccountVerifid &&
+                    {!userData.isAccountVerifed &&
                      <li onClick={sendVerificationMail} className="py-1 w-30 px-2 hover:bg-gray-200 
                      cursor-pointer ">Verify Email</li>
                     }

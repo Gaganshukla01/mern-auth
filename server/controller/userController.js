@@ -15,7 +15,7 @@ export const userData= async(req,res)=>{
             sucess:true,
             message:{
                 "name":user.name,
-                "isAccountVerifid":user.isAccountVerified
+                "isAccountVerifed":user.isAccountVerified
             }
         })
 

@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken";
 import userModel from "../model/userModel.js";
 import transporter from "../config/nodeMailer.js";
+import {PASSWORD_RESET_TEMPLATE,EMAIL_VERIFY_TEMPLATE,USER_REGISTER_TEMPLATE} from "../config/emailTemplate.js"
 
 // for regiter new user
 export const register= async(req,res)=>{
@@ -39,7 +40,7 @@ export const register= async(req,res)=>{
             from:process.env.SENDER_EMAIL,
             to:email,
             subject:"Welocme to Auth",
-            text:`Welcome to auth website,Your account has been created with email id ${email}`
+            html:USER_REGISTER_TEMPLATE.replace("{{name}}",user.name)
         }
 
         await transporter.sendMail(mailOption)
@@ -131,7 +132,7 @@ export const sendVerifyOtp= async (req,res)=>{
             from:process.env.SENDER_EMAIL,
             to:user.email,
             subject:"Your Verification OTP",
-            text:`Verification OTP is ${otp} use this for verification`
+            html:EMAIL_VERIFY_TEMPLATE.replace("{{otp}}",otp).replace("{{email}}",user.email)
         }
 
        await  transporter.sendMail(mailOption)
@@ -146,8 +147,7 @@ export const sendVerifyOtp= async (req,res)=>{
 export const verifyEmail= async (req,res)=>{
 
     const {userId ,otp}=req.body
-    
-
+   
     if(!userId ||!otp){
         return res.json({success:false,message:"Missing Deatils"})
     }
@@ -169,7 +169,7 @@ export const verifyEmail= async (req,res)=>{
             user.verifyOtp='';
             user.verifyOtpExpireAt=0;
             await user.save()
-            return res.json({sucess:true,mesage:"Account is verified.."})
+            return res.json({success:true,message:"Account is verified.."})
         
     } catch (error) {
         return res.json({success:false,message:"error"})
@@ -216,7 +216,7 @@ export const resetPasswordOtp=async(req,res)=>{
             from:process.env.SENDER_EMAIL,
             to:user.email,
             subject:"Your Password Reset  OTP",
-            text:`Password Reset OTP is ${otp} use this for change password`
+            html:PASSWORD_RESET_TEMPLATE.replace("{{otp}}",otp).replace("{{email}}",user.email)
         }
 
         await transporter.sendMail(mailOption)
@@ -227,15 +227,11 @@ export const resetPasswordOtp=async(req,res)=>{
     }
 
 }
-
-
-
 // Reset User Password
 export const resetPassword=async(req,res)=>{
 
     const{email,otp,newPassword}=req.body
-    console.log(otp)
-
+   
     if(!email || !otp || !newPassword){
         return res.json({sucess:false,message:"Empty Field is not allowed"})
     }
