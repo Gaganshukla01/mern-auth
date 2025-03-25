@@ -6,7 +6,7 @@ import connectDb from "./config/database.js"
 import {authRoute} from "./router/authRouter.js"
 import { userRoutes } from "./router/userRouter.js"
 
-const allowedOrigin=["http://localhost:5173"]
+const allowedOrigin=[process.env.FRONTED_URL]
 const app=express()
 const port=process.env.PORT||4000
 
