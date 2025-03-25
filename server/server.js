@@ -6,12 +6,12 @@ import connectDb from "./config/database.js"
 import {authRoute} from "./router/authRouter.js"
 import { userRoutes } from "./router/userRouter.js"
 
-const allowedOrigin=[process.env.FRONTED_URL]
+// const allowedOrigin=[process.env.FRONTED_URL]
 const app=express()
 const port=process.env.PORT||4000
 
 app.use(express.json())
-app.use(cors({origin:allowedOrigin,credentials:true}))
+app.use(cors({origin:true,credentials:true}))
 app.use(cookieParser())
 
 connectDb()
